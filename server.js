@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 80
 
-app.use('/public')
+app.use(express.static('public'))
 app.set('view engine', 'pug')
 
 app.get('/', function (req, res) {
