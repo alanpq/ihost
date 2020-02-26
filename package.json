@@ -1,0 +1,22 @@
+{
+  "name": "ihost",
+  "version": "1.0.0",
+  "description": "img host",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oofsauce/ihost.git"
+  },
+  "author": "oofsauce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oofsauce/ihost/issues"
+  },
+  "homepage": "https://github.com/oofsauce/ihost#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
