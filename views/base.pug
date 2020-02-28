@@ -1,28 +1,32 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title ihost - #{title}
-        block head
-            link(rel="stylesheet", href="stylesheets/style.css")
-    body
-        header
-            nav
-                a Home
-                a beee
-                a ceeee
-                span.space
-                ul.profile
-                    li
-                        a profil
-                    li
-                        a(href="#") Account
-                    li
-                        a(href="#") Log out
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title ihost - #{title}
+    block head
+      link(rel="stylesheet", href="stylesheets/style.css")
+  body
+    header
+      nav
+        a(href="/") Home
+        a(href="#") beee
+        a ceeee
+        span.space
+        if id
+          ul.profile
+            li
+              a profil #{id}
+            li
+              a(href="/profile") Account
+            li
+              a(href="/logout") Log out
+        else
+          a(href="login") Login
+          a(href="signup") Signup
 
-        main
-            block content
-        footer
-            block foot
-            span.copyright &copy; oofsauce 2020-#{time.getFullYear()}
+    main
+      block content
+    footer
+      block foot
+      span.copyright &copy; oofsauce 2020-#{time.getFullYear()}
