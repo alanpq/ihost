@@ -43,7 +43,10 @@ app.get('/', (req, res) => {
   res.render('index', {
     title: 'Hey',
     time: new Date(Date.now()),
-    id: req.session.user ? req.session.user.id : undefined
+    id: req.session.user ? req.session.user.id : undefined,
+    users: users.map((v) => {
+      return v.id
+    })
   })
 })
 
