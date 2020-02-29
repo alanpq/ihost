@@ -14,7 +14,7 @@ const login = async (name, password, dbCollections) => {
       console.error("more than 1 user found with exact credentials????")
       res = {
         code: 500,
-        message: "Please contact an administrator."
+        message: "Please contact an administrator. ERROR RL-01"
       }
       return
     }
@@ -30,7 +30,7 @@ const login = async (name, password, dbCollections) => {
     console.error(err)
     res = {
       code: 500,
-      message: "Please contact an administrator."
+      message: "Please contact an administrator. ERROR RL-02"
     }
     return
   })
@@ -50,7 +50,7 @@ module.exports = (dbCollections) => {
 
   router.post('/', function (req, res) {
     console.log(req.body.id, req.body.password)
-    login(req.body.id, req.body.password, dbCollections).then( (loginRes) => {
+    login(req.body.id.trim().replace(/\W/g, ''), req.body.password.trim().replace(/\W/g, ''), dbCollections).then( (loginRes) => {
       if(loginRes.user)
       req.session.user = loginRes.user
     

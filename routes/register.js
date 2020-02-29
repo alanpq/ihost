@@ -1,4 +1,38 @@
 const express = require('express')
+
+const register = async (name, password, dbCollections) => {
+  if (!name || !password)
+    return {
+      code: 400,
+      message: 'Invalid username/password'
+    }
+
+  var res = {code: 500,
+    message: "Please contact an administrator. ERROR RR-01"
+  }
+  await dbCollections.users.where("name", "==", name).get().then(function(snap) {
+    if (snap.docs.length == 0) {
+      dbCollections.users.add({ name: name, password: password, validated: false, admin: false, points: 0, reputation: 0 })
+      return res = {
+        code: 201,
+        user: {name: name}
+      }
+    } else {
+      return res = {
+        code: 400,
+        message: 'Username taken!'
+      }
+    }
+  }).catch((e) => {
+    console.error(e)
+    return res = {
+      code: 500,
+      message: 'Please contact an administrator. ERROR RR-02'
+    }
+  })
+  return res
+}
+
 module.exports = (dbCollections) => {
   const router = express.Router()
 
@@ -10,31 +44,27 @@ module.exports = (dbCollections) => {
   })
 
   router.post('/', function (req, res) {
-    let name = req.body.id.trim()
-    let pwd = req.body.password.trim()
-    if (!name || !pwd) {
-      res.render('register', {
+    let name = req.body.id.trim().replace(/\W/g, '')
+    let pwd = req.body.password.trim().replace(/\W/g, '')
+
+    register(name, pwd, dbCollections).then((regRes) => {
+      if(req.body.ajax)
+        return res.status(regRes.code).json(regRes)
+      
+      if(regRes.code == 201) {
+        req.session.user = regRes.user.name;
+        return res.redirect('/profile')
+      }
+      return res.render('register', {
         title: 'Register',
         time: new Date(Date.now()),
-        message: 'Invalid username/password'
+        message: regRes.message
       });
-    } else {
-      dbCollections.users.where("name", "==", name).get().then((snap) => {
-        if (snap.docs.length == 0) {
-          dbCollections.users.add({ name: name, password: pwd, validated: false, admin: false, points: 0, reputation: 0 })
-          req.session.user = name;
-          res.redirect('/profile');
-        } else {
-          res.render('register', {
-            title: 'Register',
-            time: new Date(Date.now()),
-            message: 'Username taken! Did you mean to <a href="/login">login</a>?'
-          })
-        }
-      }).catch((e) => { console.error(e) })
-      // let newUser = {id: name, password: pwd};
-      // users.push(newUser);
-    }
+    }).catch((e) => {
+      console.error(e) // TODO: display this error
+    })
+
+    
   });
   return router
 }
