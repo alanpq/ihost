@@ -1,4 +1,10 @@
 extends base.pug
 
+block include
+  script(src="javascript/index.js" defer)
+
 block content
   | herl
+  br
+  button(onclick='testpop()') Pop me up
+  section#testout

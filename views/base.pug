@@ -6,7 +6,19 @@ html(lang="en")
     title ihost - #{title}
     link(rel="stylesheet", href="stylesheets/style.css")
     block include
+    script(src="javascript/popup.js" defer)
   body
+
+    section#popup
+      form.window(action="javascript:;")
+        h1 Woah hold up
+        span.message Are you sure you're ok?
+        fieldset#text
+          input(name="text", type="text", placeholder="text here")
+        fieldset#choice
+          input(type="submit", onclick="popupAction(0)", value="Yes")
+          input#no(type="submit", onclick="popupAction(1)", value="No")
+
     header
       nav
         a(href="/") Home
