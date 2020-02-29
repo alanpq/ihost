@@ -105,3 +105,4 @@ dist
 
 # compiled css files
 public/stylesheets/
+*.css
