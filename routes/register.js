@@ -12,10 +12,11 @@ const register = async (name, password, dbCollections) => {
   }
   await dbCollections.users.where("name", "==", name).get().then(function(snap) {
     if (snap.docs.length == 0) {
-      dbCollections.users.add({ name: name, password: password, validated: false, admin: false, points: 0, reputation: 0 })
+      let usr = { name: name, password: password, validated: false, admin: false, points: 0, reputation: 0 }
+      dbCollections.users.add(usr)
       return res = {
         code: 201,
-        user: {name: name}
+        user: usr
       }
     } else {
       return res = {
@@ -48,11 +49,11 @@ module.exports = (dbCollections) => {
     let pwd = req.body.password.trim().replace(/\W/g, '')
 
     register(name, pwd, dbCollections).then((regRes) => {
+      if(regRes.user) req.session.user = regRes.user;
       if(req.body.ajax)
         return res.status(regRes.code).json(regRes)
       
       if(regRes.code == 201) {
-        req.session.user = regRes.user.name;
         return res.redirect('/profile')
       }
       return res.render('register', {
