@@ -54,6 +54,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({secret: "Your secret key"})); //TODO: change session store from MemoryStore for prod
 
+//TODO: make route titles defined only once
+//TODO: add message localisation support
 app.use(require('./routes')(dbCollections))
 
 app.listen(port, () => console.log(`App listening on port ${port}.`))

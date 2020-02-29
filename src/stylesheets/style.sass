@@ -1,4 +1,5 @@
 @import include-media.scss
+@import loader.scss
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap')
 
 $lightpurple: #48038C
@@ -151,6 +152,10 @@ form
 
   .notice, .error
     margin-top: 10px
+  
+  .loader
+    font-size: 3px
+    margin: -1px auto 12px auto
 
 input
   outline: none
@@ -183,11 +188,13 @@ section
 button, input[type=submit]
   border: 2px solid $green
     radius: 2px
+  padding: 5px
   background: transparent
   color: $green
   transition: background 0.1s ease-in-out,
   border-color 0.1s ease-in-out,
   color 0.1s ease-in-out
+  font: inherit
   
   outline: none
   // cursor: pointer
