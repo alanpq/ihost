@@ -1,5 +1,5 @@
 const express = require('express');
-module.exports = (usersCol) => {
+module.exports = (dbCollections) => {
   const router = express.Router();
 
   router.get('/', function (req, res) {
@@ -21,7 +21,7 @@ module.exports = (usersCol) => {
       });
     } else {
       // TODO: make password not plaintext like lel?
-      usersCol.where("name", "==", req.body.id).where("password", "==", req.body.password).get().then((snap) => {
+      dbCollections.users.where("name", "==", req.body.id).where("password", "==", req.body.password).get().then((snap) => {
         if (snap.docs.length == 0) {
           res.render('login', {
             message: "Invalid username/password!",

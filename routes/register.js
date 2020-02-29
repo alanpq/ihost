@@ -1,5 +1,5 @@
 const express = require('express')
-module.exports = (usersCol) => {
+module.exports = (dbCollections) => {
   const router = express.Router()
 
   router.get('/', (req, res) => {
@@ -19,9 +19,9 @@ module.exports = (usersCol) => {
         message: 'Invalid username/password'
       });
     } else {
-      usersCol.where("name", "==", name).get().then((snap) => {
+      dbCollections.users.where("name", "==", name).get().then((snap) => {
         if (snap.docs.length == 0) {
-          usersCol.add({ name: name, password: pwd, validated: false, admin: false, points: 0, reputation: 0 })
+          dbCollections.users.add({ name: name, password: pwd, validated: false, admin: false, points: 0, reputation: 0 })
           req.session.user = name;
           res.redirect('/profile');
         } else {
