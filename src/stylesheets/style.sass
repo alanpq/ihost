@@ -31,90 +31,90 @@ body
     flex-direction: column
 
 header
-    height: $navheight
-    background: $lightpurple
+  height: $navheight
+  background: $lightpurple
 
-    @include media("<tablet")
-        height: max-content
+  @include media("<tablet")
+    height: max-content
 nav
+  display: flex
+  align-content: flex-start
+
+  height: 100%
+
+  @include media("<tablet")
+      flex-direction: column
+      height: max-content
+
+  a
+      display: flex
+      justify-content: center
+      align-items: center
+
+      padding: 15px
+      height: 100%
+
+      box-sizing: border-box
+
+      color: rgba(255,255,255,0.8) !important
+      text-align: center
+
+      cursor: pointer
+
+  a:hover
+      color: white
+      background: rgba(255,255,255,0.1)
+
+  .space
+      flex-grow: 1
+      cursor: default
+  
+  ul
+    &.profile
+      width: 100px
+      @include media("<tablet")
+        width: 100%
+    z-index: 100
     display: flex
+    flex-direction: column
     align-content: flex-start
 
-    height: 100%
+    height: max-content
+    max-height: $navheight
 
     @include media("<tablet")
-        flex-direction: column
+      max-height: max-content
+
+    transition: max-height 0.1s ease-in-out
+    margin: 0
+    padding: 0
+
+    background: $lightpurple
+    overflow: hidden
+
+    list-style: none
+
+    &:hover
         height: max-content
+        max-height: $navheight * 3
 
-    a
-        display: flex
-        justify-content: center
-        align-items: center
-
-        padding: 15px
+    li
+      text-align: center
+      // color: white
+      height: $navheight * 0.75
+      &:first-child
         height: 100%
-
-        box-sizing: border-box
-
-        color: rgba(255,255,255,0.8) !important
-        text-align: center
-
-        cursor: pointer
-
-    a:hover
-        color: white
-        background: rgba(255,255,255,0.1)
-
-    .space
-        flex-grow: 1
-        cursor: default
-    
-    ul
-        &.profile
-            width: 100px
-            @include media("<tablet")
-                width: 100%
-        z-index: 100
-        display: flex
-        flex-direction: column
-        align-content: flex-start
-
-        height: max-content
-        max-height: $navheight
-
+        a
+          padding: 15px
+          font-size: 1em
+            
         @include media("<tablet")
-            max-height: max-content
-
-        transition: max-height 0.1s ease-in-out
-        margin: 0
-        padding: 0
-
-        background: $lightpurple
-        overflow: hidden
-
-        list-style: none
-
-        &:hover
-            height: max-content
-            max-height: $navheight * 3
-
-        li
-            text-align: center
-            // color: white
-            height: $navheight * 0.75
-            &:first-child
-                height: 100%
-                a
-                    padding: 15px
-                    font-size: 1em
-                    
-                @include media("<tablet")
-                    border-bottom: 1px solid rgba(0,0,0,0.3)
-            a
-                padding: 12px
-                font-size: 0.9em
-            &:last-child
-                margin-bottom: 0.5em
+          border-bottom: 1px solid rgba(0,0,0,0.3)
+      a
+        padding: 12px
+        font-size: 0.9em
+      &:last-child
+        margin-bottom: 0.5em
 
 main
     flex-grow: 1
@@ -137,53 +137,53 @@ a
     text-decoration: none
 
 a:visited
-    color: $green
+  color: $green
 
 a:hover
-    background: $green
-    color: white
+  background: $green
+  color: white
 
 form
-    display: flex
-    flex-direction: column
-    width: 50%
+  display: flex
+  flex-direction: column
+  width: 50%
 
-    .notice, .error
-        margin-top: 10px
+  .notice, .error
+    margin-top: 10px
 
 input
-    outline: none
-    border: none
-    margin: 2px
-    padding: 3px
-    border-radius: 2px
+  outline: none
+  border: none
+  margin: 2px
+  padding: 3px
+  border-radius: 2px
 
 subtitle
-    font-size: 0.7em
+  font-size: 0.7em
 
 .notice
-    font-weight: bold
+  font-weight: bold
 
-    &.red
-        color: $red
+  &.red
+    color: $red
 
 .error
     color: $red
 
 section
-    margin-bottom: 20px
+  margin-bottom: 20px
 
 button, input[type=submit]
-    border-radius: 2px
-    background: $green
-    color: $darkblue
-    transition: background 0.1s ease-in-out
-    // cursor: pointer
-    &:hover
-        background: $lightgreen
-    &:active
-        background: $darkgreen
+  border-radius: 2px
+  background: $green
+  color: $darkblue
+  transition: background 0.1s ease-in-out
+  // cursor: pointer
+  &:hover
+    background: $lightgreen
+  &:active
+    background: $darkgreen
 
 h1
-    padding-bottom: 8px
-    border-bottom: 1px solid rgba(255,255,255,0.1)
+  padding-bottom: 8px
+  border-bottom: 1px solid rgba(255,255,255,0.1)

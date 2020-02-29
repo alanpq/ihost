@@ -4,3 +4,6 @@ block content
   | lel hi #{user.name}
   br
   | you are #{user.validated ? "" : "not"} validated.
+  br
+  if user.admin
+    | class you're an admin
