@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require('express')
+const bcrypt = require('bcrypt')
 
 const login = async (name, password, dbCollections) => {
   // TODO: make password not plaintext like lel?
   let res = {}
-  await dbCollections.users.where("name", "==", name).where("password", "==", password).get().then((snap) => {
+  await dbCollections.users.where("name", "==", name).get().then(async (snap) => {
     if (snap.docs.length == 0) {
       res = {
         code: 403,
@@ -19,6 +20,11 @@ const login = async (name, password, dbCollections) => {
       return
     }
     let usr = snap.docs[0].data()
+    const match = await bcrypt.compare(password, usr.password)
+    if(!match) return res = {
+      code: 403,
+      message: "Invalid username/password"
+    }
     // hide sensitive info
     delete usr.password
     res = {
@@ -50,9 +56,9 @@ module.exports = (dbCollections) => {
 
   router.post('/', function (req, res) {
     console.log(req.body.id, req.body.password)
-    login(req.body.id.trim().replace(/\W/g, ''), req.body.password.trim().replace(/\W/g, ''), dbCollections).then( (loginRes) => {
+    login(req.body.id.trim().replace(/\W/g, ''), req.body.password, dbCollections).then( (loginRes) => {
       if(loginRes.user)
-      req.session.user = loginRes.user
+        req.session.user = loginRes.user
     
       if(req.body.ajax) {
         return res.status(loginRes.code).json(loginRes)
