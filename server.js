@@ -9,6 +9,7 @@ const app     = express()
 const port    = process.env.PORT || 3000
 
 const sassMiddleware = require('node-sass-middleware')
+const postcssMiddleware = require('postcss-middleware');
 
 const firebase = require('firebase');
 const fbApp = firebase.initializeApp({
@@ -32,6 +33,12 @@ app.use(sassMiddleware({
  ,prefix: "/stylesheets"
  ,indentedSyntax: true
 }))
+
+app.use('/stylesheets', postcssMiddleware({
+  plugins: [
+    require('autoprefixer')
+  ]
+}));
 app.set('view engine', 'pug')
 app.use(express.static('public', { index: false }))
 
