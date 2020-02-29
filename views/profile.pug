@@ -1,4 +1,6 @@
 extends base.pug
 
 block content
-  | lel hi #{id}
+  | lel hi #{user.id}
+  br
+  | you are #{user.validated ? "" : "not"} validated.

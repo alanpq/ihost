@@ -10,11 +10,24 @@ const port    = process.env.PORT || 3000
 
 const sassMiddleware = require('node-sass-middleware')
 
+const firebase = require('firebase');
+const fbApp = firebase.initializeApp({
+  apiKey: "AIzaSyAsJz6-q8nXCpghsXNZIVfl_fNx8382Wbc",
+  authDomain: "ihost-d0717.firebaseapp.com",
+  databaseURL: "https://ihost-d0717.firebaseio.com",
+  projectId: "ihost-d0717",
+  storageBucket: "ihost-d0717.appspot.com",
+  messagingSenderId: "360332128546",
+  appId: "1:360332128546:web:711750238146cca3cef57b"
+})
+
+const usersCol = fbApp.firestore().collection("users")
+
 
 app.use(sassMiddleware({
   src: path.join(__dirname, 'src', 'stylesheets')
  ,dest: path.join(__dirname, 'public', 'stylesheets')
- ,debug: true
+ ,debug: false
  ,outputStyle: 'compressed'
  ,prefix: "/stylesheets"
  ,indentedSyntax: true
@@ -33,20 +46,16 @@ const authenticated = (req, res, next) => {
   if(req.session.user){
     next();     //If session exists, proceed to page
   } else {
-    var err = new Error("Not logged in!");
-    console.log(req.session.user);
-    next(err);  //Error, trying to access unauthorized page!
+    res.redirect('/')
  }
 }
 
 app.get('/', (req, res) => {
+  // console.log(req.session.user)
   res.render('index', {
     title: 'Hey',
     time: new Date(Date.now()),
-    id: req.session.user ? req.session.user.id : undefined,
-    users: users.map((v) => {
-      return v.id
-    })
+    user: req.session.user
   })
 })
 
@@ -71,9 +80,10 @@ app.post('/signup', function(req, res){
       });
     }
     });
-    let newUser = {id: req.body.id, password: req.body.password};
-    users.push(newUser);
-    req.session.user = newUser;
+    // let newUser = {id: req.body.id, password: req.body.password};
+    // users.push(newUser);
+    usersCol.add({name: req.body.id, password: req.body.password, validated: false, points: 0, reputation: 0})
+    req.session.user = req.body.id;
     res.redirect('/profile');
   }
 });
@@ -86,7 +96,8 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', function(req, res){
-  console.log(users);
+  console.log(req.body.id, req.body.password)
+  // console.log(users);
   if(!req.body.id || !req.body.password){
     console.log('what da hell gimme something')
     res.render('login', {
@@ -94,20 +105,37 @@ app.post('/login', function(req, res){
       time: new Date(Date.now())
     });
   } else {
-    let found = false;
-    users.filter(function(user){
-      if(user.id === req.body.id && user.password === req.body.password) {
-        console.log('user found')
-        req.session.user = user;
-        res.redirect('/profile');
-        found = true;
+    // TODO: make password not plaintext like lel?
+    usersCol.where("name", "==", req.body.id).where("password", "==", req.body.password).get().then((snap) => {
+      if(snap.docs.length == 0) {
+        res.render('login', {
+          message: "Invalid credentials!",
+          time: new Date(Date.now())
+        });
+        return;
+      } else if(snap.docs.length > 1) {
+        console.error("more than 1 user found with exact credentials????")
+        res.render('login', {
+          message: "Whopper bug! Duplicate entry found. Please contact an administrator.", 
+          time: new Date(Date.now())
+        })
       }
-    });
-    if(found) return;
-    res.render('login', {
-      message: "Invalid credentials!",
-      time: new Date(Date.now())
-    });
+      let user = snap.docs[0].data()
+      console.log('user found', user)
+      req.session.user = user;
+      delete req.session.user.password
+      res.redirect('/profile');
+    }).catch((err) => {
+      console.error(err)
+    })
+    // users.filter(function(user){
+    //   if(user.id === req.body.id && user.password === req.body.password) {
+    //     console.log('user found')
+    //     req.session.user = user;
+    //     res.redirect('/profile');
+    //     found = true;
+    //   }
+    // });
   }
 });
 
@@ -121,7 +149,7 @@ app.get('/logout', function(req, res){
 app.get('/profile', authenticated, (req, res) => {
   res.render('profile', {
     title: 'Profile',
-    id: req.session.user.id,
+    user: req.session.user,
     time: new Date(Date.now())
   })
 })
