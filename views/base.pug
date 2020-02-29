@@ -14,10 +14,10 @@ html(lang="en")
         h1 Woah hold up
         span.message Are you sure you're ok?
         fieldset#text
-          input(name="text", type="text", placeholder="text here")
+          input(name="text", type="text", placeholder="text here", autocomplete="off")
         fieldset#choice
-          input(type="submit", onclick="popupAction(0)", value="Yes")
-          input#no(type="submit", onclick="popupAction(1)", value="No")
+          input.invert(type="submit", onclick="popupAction(0)", value="Yes")
+          input.red(type="submit", onclick="popupAction(1)", value="No")
 
     header
       nav
