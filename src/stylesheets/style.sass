@@ -160,6 +160,10 @@ input
   padding: 5px
   border-radius: 2px
   font: inherit
+  outline 0px solid $turquoise
+  transition: outline-width 0.1s ease-in-out
+  &:focus
+    outline: 2px solid $turquoise
 
 subtitle
   font-size: 0.7em
@@ -184,8 +188,10 @@ button, input[type=submit]
   transition: background 0.1s ease-in-out,
   border-color 0.1s ease-in-out,
   color 0.1s ease-in-out
+  
+  outline: none
   // cursor: pointer
-  &:hover
+  &:hover, &:focus
     background: $lightgreen
     border-color: $lightgreen
     color: $purple
@@ -195,7 +201,7 @@ button, input[type=submit]
   &.invert
     background: $green
     color: $purple
-    &:hover
+    &:hover, &:focus
       background: transparent
       color: $green
     &:active
@@ -205,7 +211,7 @@ button, input[type=submit]
   &.red
     color: $red
     border-color: $red
-    &:hover
+    &:hover, &:focus
       background: $red
     &:hover
       background: $darkred
@@ -215,7 +221,7 @@ button, input[type=submit]
       background: $red
       color: $purple
 
-      &:hover
+      &:hover, &:focus
         background: transparent
         color: $red
       &:active
