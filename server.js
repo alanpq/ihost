@@ -46,7 +46,7 @@ const authenticated = (req, res, next) => {
   if(req.session.user){
     next();     //If session exists, proceed to page
   } else {
-    res.redirect('/')
+    res.redirect('/login')
  }
 }
 
@@ -89,6 +89,7 @@ app.post('/register', function(req, res){
 });
 
 app.get('/login', function(req, res){
+  if(req.body.user) res.redirect('/profile') // user already logged in
   res.render('login', {
     title: 'Login',
     time: new Date(Date.now())
