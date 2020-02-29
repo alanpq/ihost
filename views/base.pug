@@ -16,14 +16,14 @@ html(lang="en")
         if user
           ul.profile
             li
-              a profil #{user.name}
+              a #{user.name}
             li
-              a(href="/profile") Account
+              a(href="/profile") Profile
             li
               a(href="/logout") Log out
         else
           a(href="login") Login
-          a(href="signup") Signup
+          a(href="register") Register
 
     main
       block content

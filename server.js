@@ -59,21 +59,21 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/signup', (req, res) => {
-  res.render('signup', {
+app.get('/register', (req, res) => {
+  res.render('register', {
     title: 'Sign up',
     time: new Date(Date.now())
   });
 })
 
-app.post('/signup', function(req, res){
+app.post('/register', function(req, res){
   if(!req.body.id || !req.body.password){
     res.status("400");
     res.send("Invalid details!");
   } else {
     users.filter(function(user){
     if(user.id === req.body.id){
-      res.render('signup', {
+      res.render('register', {
         title: 'Sign up',
         time: new Date(Date.now()),
         message: 'User Already Exists! Login or choose another user id'

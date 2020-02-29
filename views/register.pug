@@ -3,8 +3,8 @@ extends base.pug
 block content
   section.notice.red
     | NOTE: passwords are currently stored in plaintext. Don't use a password you actually use ok thanks
-  form(action="/signup", method="post")
+  form(action="/register", method="post")
     input(name="id", placeholder="username", required)
     input(name="password", type="password", placeholder="password", required)
-    input(type="submit", value="Signup")
+    input(type="submit", value="Register")
   section.error=message
