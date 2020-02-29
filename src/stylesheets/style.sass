@@ -1,4 +1,6 @@
+@import include-media.scss
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap')
+
 $lightpurple: #48038C
 $purple:      #2E0259
 $darkblue:    #310273
@@ -32,11 +34,17 @@ header
     height: $navheight
     background: $lightpurple
 
+    @include media("<tablet")
+        height: max-content
 nav
     display: flex
     align-content: flex-start
 
     height: 100%
+
+    @include media("<tablet")
+        flex-direction: column
+        height: max-content
 
     a
         display: flex
@@ -64,6 +72,8 @@ nav
     ul
         &.profile
             width: 100px
+            @include media("<tablet")
+                width: 100%
         z-index: 100
         display: flex
         flex-direction: column
@@ -88,14 +98,14 @@ nav
         li
             text-align: center
             // color: white
-            height: $navheight / 2
+            height: $navheight * 0.75
             &:first-child
                 height: 100%
                 a
                     padding: 15px
                     font-size: 1em
             a
-                padding: 10px
+                padding: 12px
                 font-size: 0.9em
             &:last-child
                 margin-bottom: 0.5em
