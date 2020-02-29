@@ -22,8 +22,15 @@ const fbApp = firebase.initializeApp({
   appId: "1:360332128546:web:711750238146cca3cef57b"
 })
 
-const usersCol = fbApp.firestore().collection("users")
 
+/**
+ * Database Collections definition
+ * @typedef {Object} Collections
+ * @property {firebase.firestore.CollectionReference<firebase.firestore.DocumentData>} users
+ */
+const dbCollections = {
+  users: fbApp.firestore().collection("users")
+}
 
 app.use(sassMiddleware({
   src: path.join(__dirname, 'src', 'stylesheets')
@@ -47,6 +54,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({secret: "Your secret key"})); //TODO: change session store from MemoryStore for prod
 
-app.use(require('./routes')(usersCol))
+app.use(require('./routes')(dbCollections))
 
 app.listen(port, () => console.log(`App listening on port ${port}.`))
