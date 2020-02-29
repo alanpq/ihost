@@ -4,6 +4,10 @@ $purple:      #2E0259
 $darkblue:    #310273
 $turquoise:   #1F98A6
 $green:       #15BFA0
+$lightgreen:  #3de2cc
+$darkgreen:  #0f9970
+
+$red: #ff4f68
 
 $navheight: 50px
 
@@ -44,7 +48,7 @@ nav
 
         box-sizing: border-box
 
-        color: rgba(255,255,255,0.8)
+        color: rgba(255,255,255,0.8) !important
         text-align: center
 
         cursor: pointer
@@ -56,6 +60,7 @@ nav
     .space
         flex-grow: 1
         cursor: default
+    
     ul
         &.profile
             width: 100px
@@ -92,6 +97,8 @@ nav
             a
                 padding: 10px
                 font-size: 0.9em
+            &:last-child
+                margin-bottom: 0.5em
 
 main
     flex-grow: 1
@@ -114,22 +121,53 @@ a
     text-decoration: none
 
 a:visited
-    color: unset
+    color: $green
+
+a:hover
+    background: $green
+    color: white
 
 form
     display: flex
     flex-direction: column
     width: 50%
-    margin: auto auto
+
+    .notice, .error
+        margin-top: 10px
 
 input
     outline: none
     border: none
     margin: 2px
     padding: 3px
+    border-radius: 2px
+
+subtitle
+    font-size: 0.7em
 
 .notice
     font-weight: bold
 
-    .red
-        
+    &.red
+        color: $red
+
+.error
+    color: $red
+
+section
+    margin-bottom: 20px
+
+button, input[type=submit]
+    border-radius: 2px
+    background: $green
+    color: $darkblue
+    transition: background 0.1s ease-in-out
+    // cursor: pointer
+    &:hover
+        background: $lightgreen
+    &:active
+        background: $darkgreen
+
+h1
+    padding-bottom: 8px
+    border-bottom: 1px solid rgba(255,255,255,0.1)

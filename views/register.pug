@@ -1,10 +1,14 @@
 extends base.pug
 
+block include
+  link(rel="stylesheet", href="stylesheets/soloform.css")
+
 block content
-  section.notice.red
-    | NOTE: passwords are currently stored in plaintext. Don't use a password you actually use ok thanks
   form(action="/register", method="post")
+    h1 Register
     input(name="id", placeholder="username", required)
     input(name="password", type="password", placeholder="password", required)
     input(type="submit", value="Register")
-  section.error=message
+    subtitle.notice.red
+      | NOTE: passwords are currently stored in plaintext. Don't use a password you actually use ok thanks
+    section.error !{message}

@@ -27,7 +27,7 @@ const usersCol = fbApp.firestore().collection("users")
 app.use(sassMiddleware({
   src: path.join(__dirname, 'src', 'stylesheets')
  ,dest: path.join(__dirname, 'public', 'stylesheets')
- ,debug: false
+ ,debug: true
  ,outputStyle: 'compressed'
  ,prefix: "/stylesheets"
  ,indentedSyntax: true
@@ -61,30 +61,37 @@ app.get('/', (req, res) => {
 
 app.get('/register', (req, res) => {
   res.render('register', {
-    title: 'Sign up',
+    title: 'Register',
     time: new Date(Date.now())
   });
 })
 
 app.post('/register', function(req, res){
-  if(!req.body.id || !req.body.password){
-    res.status("400");
-    res.send("Invalid details!");
-  } else {
-    users.filter(function(user){
-    if(user.id === req.body.id){
-      res.render('register', {
-        title: 'Sign up',
-        time: new Date(Date.now()),
-        message: 'User Already Exists! Login or choose another user id'
-      });
-    }
+  let name = req.body.id.trim()
+  let pwd = req.body.password.trim()
+  if(!name || !pwd){
+    res.render('register', {
+      title: 'Register',
+      time: new Date(Date.now()),
+      message: 'Invalid username/password'
     });
-    // let newUser = {id: req.body.id, password: req.body.password};
+  } else {
+    usersCol.where("name", "==", name).get().then((snap) => {
+      if(snap.docs.length == 0) {
+        usersCol.add({name: name, password: pwd, validated: false, points: 0, reputation: 0})
+        req.session.user = name;
+        res.redirect('/profile');
+      } else {
+        res.render('register', {
+          title: 'Register',
+          time: new Date(Date.now()),
+          message: 'Username taken! Did you mean to <a href="/login">login</a>?'
+        })
+      }
+    }).catch((e) => {console.error(e)})
+    // let newUser = {id: name, password: pwd};
     // users.push(newUser);
-    usersCol.add({name: req.body.id, password: req.body.password, validated: false, points: 0, reputation: 0})
-    req.session.user = req.body.id;
-    res.redirect('/profile');
+    
   }
 });
 
@@ -102,7 +109,7 @@ app.post('/login', function(req, res){
   if(!req.body.id || !req.body.password){
     console.log('what da hell gimme something')
     res.render('login', {
-      message: "Please enter both id and password", 
+      message: "Username and password are required.", 
       time: new Date(Date.now())
     });
   } else {
@@ -110,14 +117,14 @@ app.post('/login', function(req, res){
     usersCol.where("name", "==", req.body.id).where("password", "==", req.body.password).get().then((snap) => {
       if(snap.docs.length == 0) {
         res.render('login', {
-          message: "Invalid credentials!",
+          message: "Invalid username/password!",
           time: new Date(Date.now())
         });
         return;
       } else if(snap.docs.length > 1) {
         console.error("more than 1 user found with exact credentials????")
         res.render('login', {
-          message: "Whopper bug! Duplicate entry found. Please contact an administrator.", 
+          message: "Bro bro bro. Duplicate entry found. Please contact an administrator.", 
           time: new Date(Date.now())
         })
       }
