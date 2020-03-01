@@ -7,6 +7,9 @@ html(lang="en")
     link(rel="stylesheet", href="stylesheets/style.css")
     block include
     script(src="javascript/popup.js" defer)
+    if user
+      script.
+        const user = !{JSON.stringify(user)}
   body
 
     section#popup

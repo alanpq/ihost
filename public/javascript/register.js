@@ -11,8 +11,7 @@ const register = () => {
   regBut.innerHTML = `<div class="loader"></div>`
   postData('/register', {
     id: regForm.elements.id.value,
-    password: regForm.elements.password.value,
-    ajax: true
+    password: regForm.elements.password.value
   }).then((data) => {
     console.log(data)
     if(data.code == 201) window.location = "/profile"

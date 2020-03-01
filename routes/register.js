@@ -65,7 +65,7 @@ module.exports = (dbCollections) => {
 
     register(name, pwd, dbCollections).then((regRes) => {
       if(regRes.user) req.session.user = regRes.user;
-      if(req.body.ajax)
+      if(!req.body.trad)
         return res.status(regRes.code).json(regRes)
       
       if(regRes.code == 201) {

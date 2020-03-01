@@ -11,8 +11,7 @@ const login = () => {
   loginBut.innerHTML = `<div class="loader"></div>`
   postData('/login', {
     id: loginForm.elements.id.value,
-    password: loginForm.elements.password.value,
-    ajax: true
+    password: loginForm.elements.password.value
   }).then((data) => {
     if(data.code == 200) window.location = "/profile"
     else {

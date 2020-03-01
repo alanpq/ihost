@@ -1,5 +1,9 @@
 extends base.pug
 
+block include
+  script(src="javascript/fetch.js")
+  script(src="javascript/profile.js" defer)
+
 block content
   | lel hi #{user.name}
   br
@@ -7,3 +11,5 @@ block content
   br
   if user.admin
     | class you're an admin
+    br
+  button(onclick="deleteAccount()") Delete Account

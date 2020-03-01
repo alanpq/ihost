@@ -60,7 +60,7 @@ module.exports = (dbCollections) => {
       if(loginRes.user)
         req.session.user = loginRes.user
     
-      if(req.body.ajax) {
+      if(!req.body.trad) {
         return res.status(loginRes.code).json(loginRes)
       } else {
         if(loginRes.user)
