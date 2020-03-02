@@ -2,7 +2,6 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 
 const login = async (name, password, dbCollections) => {
-  // TODO: make password not plaintext like lel?
   let res = {}
   await dbCollections.users.where("name", "==", name).get().then(async (snap) => {
     if (snap.docs.length == 0) {
