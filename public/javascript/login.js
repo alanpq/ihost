@@ -13,8 +13,10 @@ const login = () => {
     id: loginForm.elements.id.value,
     password: loginForm.elements.password.value
   }).then((data) => {
-    if(data.code == 200) window.location = "/profile"
-    else {
+    if(data.code == 200) {
+      document.cookie = `token=${data.token}; expires=${new Date(data.expires * 1000)}; path=/`;
+      window.location = "/profile"
+    } else {
       loginForm.elements.password.setCustomValidity(data.message)
       loginForm.elements.password.reportValidity()
     }

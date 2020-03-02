@@ -11,5 +11,8 @@ block content
     input(name="id", placeholder="username", required)
     input(name="password", type="password", placeholder="password", required)
     input(name="trad", type="hidden", value="1")
+    section
+      input(name="rememberme", id="rememberme", type="checkbox", checked)
+      label(for="rememberme") Remember Me
     button#submit Login
     section.error=message

@@ -13,6 +13,9 @@ const port    = process.env.PORT || 3000
 const sassMiddleware = require('node-sass-middleware')
 const postcssMiddleware = require('postcss-middleware');
 
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
 const firebase = require('firebase');
 const fbApp = firebase.initializeApp({
   apiKey: "AIzaSyAsJz6-q8nXCpghsXNZIVfl_fNx8382Wbc",
@@ -54,7 +57,16 @@ app.use(express.static('public', { index: false }))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({secret: "Your secret key"})); //TODO: change session store from MemoryStore for prod
+app.use(session({
+  secret: "Your secret key",
+  saveUninitialized: false,
+  unset: 'destroy',
+  resave: false,
+  cookie: {
+    secure: false,
+    sameSite: 'strict'
+  }
+})); //TODO: change session store from MemoryStore for prod
 
 //TODO: make route titles defined only once
 //TODO: add message localisation support
