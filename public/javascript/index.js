@@ -26,6 +26,7 @@ const drawList = () => {
         i++
     });
     dom_output.innerHTML = items.join("&#13;")
+    dom_list.innerHTML = txt
 }
 
 const remove = i => {
