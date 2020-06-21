@@ -31,5 +31,9 @@
     "node-sass-middleware": "^0.11.0",
     "postcss-middleware": "^1.1.4",
     "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
